@@ -106,7 +106,7 @@ def db_c():
      sudo("echo bind-address  = 0.0.0.0 >> /etc/my.cnf")
      sudo("mysql -u root -e \"create database accounts\" --password='';")
      sudo("mysql -u root -e  \"grant all privileges on *.* TO 'root'@'app.com' identified by 'root'\" --password='';")
-     sudo("mysql -u root  accounts < /root/VProfile/src/main/resources/db_backup.sql;")
+     sudo("mysql -u root  --password='' accounts < /root/VProfile/src/main/resources/db_backup.sql;")
      sudo("mysql -u root -e \"FLUSH PRIVILEGES\" --password='';")
      sudo("systemctl start mariadb")
         
@@ -116,7 +116,7 @@ def db_u():
      sudo("apt update -y")
      sudo("apt install mysql-server -y")
      sudo("systemctl start mysql")
-     sudo("sed -i 's/127.0.0.1/0.0.0.0/' /etc/mysql/mysql.conf.d/mysqld.conf")
+     sudo("sed -i 's/127.0.0.1/0.0.0.0/' /etc/mysql/mysql.conf.d/mysqld.cnf")
      sudo("mysql -u root -e \"create database accounts\" --password='root';")
      sudo("mysql -u root -e  \"grant all privileges on *.* TO 'root'@'app.com' identified by 'root'\" --password='root';")
      sudo("mysql -u root  accounts < /root/VProfile/src/main/resources/db_backup.sql;")
@@ -134,9 +134,9 @@ def lb_c():
 
 def lb_u():
      sudo("apt install nginx -y")
-     sudo("cp /root/vproapp /etc/nginx/site-available/vproapp")
-     sudo("rm -rf /etc/nginx/site-enabled/default")
-     sudo("ln -s /etc/nginx/site-available/vproapp /etc/nginx/site-enabled/")
+     sudo("cp /root/vproapp /etc/nginx/sites-available/vproapp")
+     sudo("rm -rf /etc/nginx/sites-enabled/default")
+     sudo("ln -s /etc/nginx/sites-available/vproapp /etc/nginx/sites-enabled/")
      sudo("sudo systemctl restart nginx")
 
         
